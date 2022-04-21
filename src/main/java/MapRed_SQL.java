@@ -70,8 +70,4 @@ public class MapRed_SQL {
       context.write(key, output);
     }
   }
-
-
-
-
 }
