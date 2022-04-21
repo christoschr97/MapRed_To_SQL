@@ -16,8 +16,8 @@
   
   
 **Parameters**:
-[DATE1] is a date of the form YYYY-MM-DD between 1992 and 1998
-[DATE2] is a date of the form YYYY-MM-DD between 1992 and 1998
+* [DATE1] is a date of the form YYYY-MM-DD between 1992 and 1998
+* [DATE2] is a date of the form YYYY-MM-DD between 1992 and 1998
 
 
 Our implementation can be fount into 
