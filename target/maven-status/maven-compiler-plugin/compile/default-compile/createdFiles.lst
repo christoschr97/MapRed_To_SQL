@@ -1,0 +1,6 @@
+WordFrequency$Reduce.class
+WordCount.class
+WordFrequency.class
+WordCount$IntSumReducer.class
+WordCount$TokenizerMapper.class
+WordFrequency$Map.class
