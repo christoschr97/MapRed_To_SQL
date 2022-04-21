@@ -3,15 +3,15 @@
 
 ### Query:
 
-**select** 
+**SELECT** 
   o_custkey, count(o_orderkey), sum(o_totalprice)
-**from**
+**FROM**
   orders
-**where**
+**WHERE**
     o_orderdate >= date '[DATE1]'
-  **and** 
+  **AND** 
     o_orderdate < date '[DATE2]'
-**group by**
+**GROUP BY**
   o_custkey;
   
   
