@@ -1,6 +1,6 @@
-WordFrequency$Reduce.class
+MapRed_SQL$Map.class
+MapRed_SQL.class
 WordCount.class
-WordFrequency.class
-WordCount$IntSumReducer.class
 WordCount$TokenizerMapper.class
-WordFrequency$Map.class
+MapRed_SQL$Reduce.class
+WordCount$IntSumReducer.class
