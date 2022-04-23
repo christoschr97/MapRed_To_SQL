@@ -14,14 +14,16 @@ public class MapRed_SQL {
   //create main function and construct a configuration for hadoop and import all the required packages
   public static void main(String[] args) throws Exception {
     Configuration conf = new Configuration();
+    conf.set("DATE1", args[2]);
+    conf.set("DATE2", args[3]);
     Job job = Job.getInstance(conf, "mapred sql output");
     job.setJarByClass(MapRed_SQL.class);
     job.setMapperClass(Map.class);
     job.setReducerClass(Reduce.class);
     job.setOutputKeyClass(Text.class);
     job.setOutputValueClass(MapWritable.class);
-    FileInputFormat.addInputPath(job, new Path(args[1]));
-    FileOutputFormat.setOutputPath(job, new Path(args[2]));
+    FileInputFormat.addInputPath(job, new Path(args[0]));
+    FileOutputFormat.setOutputPath(job, new Path(args[1]));
     System.exit(job.waitForCompletion(true) ? 0 : 1);
   }
 
@@ -41,7 +43,11 @@ public class MapRed_SQL {
 
       //parse list_of_items[0] into integer and check if is between "1992" and "1998"
       int year = Integer.parseInt(list_of_items[0]);
-      if (year >= 1992 && year <= 1998) {
+      Configuration conf = context.getConfiguration();
+      int DATE1 = Integer.parseInt(conf.get("DATE1"));
+      int DATE2 = Integer.parseInt(conf.get("DATE2"));
+
+      if (year >= DATE1 && year <= DATE2) {
         result.put(new Text("orderKey") , new Text(list_of_tokens[0]));
         result.put(new Text("total_price") , new Text(list_of_tokens[3]));
         context.write(cust_key, result);
