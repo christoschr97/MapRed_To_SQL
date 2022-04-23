@@ -14,16 +14,16 @@ public class MapRed_SQL {
   //create main function and construct a configuration for hadoop and import all the required packages
   public static void main(String[] args) throws Exception {
     Configuration conf = new Configuration();
-    conf.set("DATE1", args[2]);
-    conf.set("DATE2", args[3]);
+    conf.set("DATE1", args[3]);
+    conf.set("DATE2", args[4]);
     Job job = Job.getInstance(conf, "mapred sql output");
     job.setJarByClass(MapRed_SQL.class);
     job.setMapperClass(Map.class);
     job.setReducerClass(Reduce.class);
     job.setOutputKeyClass(Text.class);
     job.setOutputValueClass(MapWritable.class);
-    FileInputFormat.addInputPath(job, new Path(args[0]));
-    FileOutputFormat.setOutputPath(job, new Path(args[1]));
+    FileInputFormat.addInputPath(job, new Path(args[1]));
+    FileOutputFormat.setOutputPath(job, new Path(args[2]));
     System.exit(job.waitForCompletion(true) ? 0 : 1);
   }
 
