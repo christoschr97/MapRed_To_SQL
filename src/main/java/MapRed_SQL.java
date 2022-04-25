@@ -15,22 +15,24 @@ public class MapRed_SQL {
   //create main function and construct a configuration for hadoop and import all the required packages
   public static void main(String[] args) throws Exception {
     Configuration conf = new Configuration();
-    conf.set("DATE1", args[2]);
-    conf.set("DATE2", args[3]);
+    conf.set("DATE1", args[3]);
+    conf.set("DATE2", args[4]);
     Job job = Job.getInstance(conf, "mapred sql output");
     job.setJarByClass(MapRed_SQL.class);
     job.setMapperClass(Map.class);
     job.setReducerClass(Reduce.class);
     job.setOutputKeyClass(Text.class);
-    job.setOutputValueClass(MapWritable.class);
-    FileInputFormat.addInputPath(job, new Path(args[0]));
-    FileOutputFormat.setOutputPath(job, new Path(args[1]));
+    job.setOutputValueClass(Text.class);
+    FileInputFormat.addInputPath(job, new Path(args[1]));
+    FileOutputFormat.setOutputPath(job, new Path(args[2]));
     System.exit(job.waitForCompletion(true) ? 0 : 1);
   }
 
-  public static class Map extends Mapper<Object, Text, Text, MapWritable> {
+  public static class Map extends Mapper<Object, Text, Text, Text> {
     private Text cust_key = new Text();
-    private MapWritable result = new MapWritable();
+//    private MapWritable result = new MapWritable();
+
+    private Text price = new Text();
 
     public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
       // parse the data
@@ -44,25 +46,27 @@ public class MapRed_SQL {
 
       //parse list_of_items[0] into integer and check if is between "1992" and "1998"
       int year = Integer.parseInt(list_of_items[0]);
+
       Configuration conf = context.getConfiguration();
       int DATE1 = Integer.parseInt(conf.get("DATE1"));
       int DATE2 = Integer.parseInt(conf.get("DATE2"));
 
       if (year >= DATE1 && year <= DATE2) {
-        result.put(new Text("total_price") , new Text(list_of_tokens[3]));
-        context.write(cust_key, result);
+        price.set(new Text(list_of_tokens[3]));
+        context.write(cust_key, price);
+
       }
     }
   }
 
-  public static class Reduce extends Reducer<Text, MapWritable, Text, Text> {
-    public void reduce(Text key, Iterable<MapWritable> values, Context context) throws IOException, InterruptedException {
+  public static class Reduce extends Reducer<Text, Text, Text, Text> {
+    public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
       MapWritable result = new MapWritable();
       int count = 0;
       float total_price = 0;
-      for (MapWritable val : values) {
+      for (Text val : values) {
         count++;
-        total_price += Float.parseFloat((val.get(new Text("total_price"))).toString());
+        total_price += Float.parseFloat((val.toString()));
       }
       result.put(new Text("count"), new Text(Integer.toString(count)));
       result.put(new Text("total_price"), new Text(Float.toString(total_price)));
