@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.Set;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
@@ -14,16 +15,16 @@ public class MapRed_SQL {
   //create main function and construct a configuration for hadoop and import all the required packages
   public static void main(String[] args) throws Exception {
     Configuration conf = new Configuration();
-    conf.set("DATE1", args[3]);
-    conf.set("DATE2", args[4]);
+    conf.set("DATE1", args[2]);
+    conf.set("DATE2", args[3]);
     Job job = Job.getInstance(conf, "mapred sql output");
     job.setJarByClass(MapRed_SQL.class);
     job.setMapperClass(Map.class);
     job.setReducerClass(Reduce.class);
     job.setOutputKeyClass(Text.class);
     job.setOutputValueClass(MapWritable.class);
-    FileInputFormat.addInputPath(job, new Path(args[1]));
-    FileOutputFormat.setOutputPath(job, new Path(args[2]));
+    FileInputFormat.addInputPath(job, new Path(args[0]));
+    FileOutputFormat.setOutputPath(job, new Path(args[1]));
     System.exit(job.waitForCompletion(true) ? 0 : 1);
   }
 
@@ -48,7 +49,6 @@ public class MapRed_SQL {
       int DATE2 = Integer.parseInt(conf.get("DATE2"));
 
       if (year >= DATE1 && year <= DATE2) {
-        result.put(new Text("orderKey") , new Text(list_of_tokens[0]));
         result.put(new Text("total_price") , new Text(list_of_tokens[3]));
         context.write(cust_key, result);
       }
@@ -62,13 +62,7 @@ public class MapRed_SQL {
       float total_price = 0;
       for (MapWritable val : values) {
         count++;
-        for (MapWritable.Entry<Writable, Writable> entry : val.entrySet()) {
-          if (entry.getKey().toString().equals("orderKey")) {
-            result.put(entry.getKey(), entry.getValue());
-          } else {
-            total_price += Float.parseFloat(entry.getValue().toString());
-          }
-        }
+        total_price += Float.parseFloat((val.get(new Text("total_price"))).toString());
       }
       result.put(new Text("count"), new Text(Integer.toString(count)));
       result.put(new Text("total_price"), new Text(Float.toString(total_price)));
