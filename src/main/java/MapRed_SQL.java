@@ -15,16 +15,16 @@ public class MapRed_SQL {
   //create main function and construct a configuration for hadoop and import all the required packages
   public static void main(String[] args) throws Exception {
     Configuration conf = new Configuration();
-    conf.set("DATE1", args[3]);
-    conf.set("DATE2", args[4]);
+    conf.set("DATE1", args[2]);
+    conf.set("DATE2", args[3]);
     Job job = Job.getInstance(conf, "mapred sql output");
     job.setJarByClass(MapRed_SQL.class);
     job.setMapperClass(Map.class);
     job.setReducerClass(Reduce.class);
     job.setOutputKeyClass(Text.class);
     job.setOutputValueClass(Text.class);
-    FileInputFormat.addInputPath(job, new Path(args[1]));
-    FileOutputFormat.setOutputPath(job, new Path(args[2]));
+    FileInputFormat.addInputPath(job, new Path(args[0]));
+    FileOutputFormat.setOutputPath(job, new Path(args[1]));
     System.exit(job.waitForCompletion(true) ? 0 : 1);
   }
 
@@ -51,7 +51,7 @@ public class MapRed_SQL {
       int DATE1 = Integer.parseInt(conf.get("DATE1"));
       int DATE2 = Integer.parseInt(conf.get("DATE2"));
 
-      if (year >= DATE1 && year <= DATE2) {
+      if (year >= DATE1 && year < DATE2) {
         price.set(new Text(list_of_tokens[3]));
         context.write(cust_key, price);
 
@@ -61,17 +61,14 @@ public class MapRed_SQL {
 
   public static class Reduce extends Reducer<Text, Text, Text, Text> {
     public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
-      MapWritable result = new MapWritable();
       int count = 0;
       float total_price = 0;
       for (Text val : values) {
         count++;
         total_price += Float.parseFloat((val.toString()));
       }
-      result.put(new Text("count"), new Text(Integer.toString(count)));
-      result.put(new Text("total_price"), new Text(Float.toString(total_price)));
-      String totalPrice = String.valueOf(result.get(new Text("total_price")));
-      String count_order = String.valueOf(result.get(new Text("count")));
+      String totalPrice = String.valueOf(total_price);
+      String count_order = String.valueOf(count);
 
       Text output = new Text( "-> Sum of Total Price = " + totalPrice + " | Count Of Orders per Order Key =" + count_order);
       System.out.println(output);
