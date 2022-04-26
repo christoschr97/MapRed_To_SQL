@@ -28,7 +28,7 @@ Our implementation can be fount into
 1. Build the JAR from the project through IntelliJ Build Artifact mechanism
 2. Start hadoop cluster (start-all.sh or start-yarn.sh start-dfs.sh)
 3. Run jps command to make sure that all the services are running (Namenode, Datanode, Secondary Namenode, Resource Manager, Node Manager)
-4. run the command `CEI526 - Semester Project Report - Christos Christodoulou, Thomas Nikidiotis, Charalambos Charalambous`
+4. run the command `hadoop jar ProjectCEI526.jar MapRed_SQL /path/to/input/directory/ /path/to/output/directory 1992 1998`
 5. Track the job through the given UI
 
 
