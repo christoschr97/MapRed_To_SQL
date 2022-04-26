@@ -18,7 +18,7 @@ public class MapReduce_Query7 {
     Configuration conf = new Configuration();
     conf.set("DATE1", args[2]);
     conf.set("DATE2", args[3]);
-    Job job = Job.getInstance(conf, "mapred sql output");
+    Job job = Job.getInstance(conf, "Map Reduce Query 7");
     job.setJarByClass(MapReduce_Query7.class);
     job.setMapperClass(Map.class);
     job.setReducerClass(Reduce.class);
@@ -68,7 +68,7 @@ public class MapReduce_Query7 {
       String totalPrice = String.valueOf(total_price);
       String count_order = String.valueOf(count);
 
-      Text output = new Text( "-> Sum of Total Price = " + totalPrice + " | Count Of Orders per Order Key =" + count_order);
+      Text output = new Text( "|" + totalPrice + "|" + count_order);
       System.out.println(output);
 
       context.write(key, output);
