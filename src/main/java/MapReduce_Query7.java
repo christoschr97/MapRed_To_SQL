@@ -1,5 +1,6 @@
 import java.io.IOException;
-import java.util.Set;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
@@ -10,27 +11,26 @@ import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
-public class MapRed_SQL {
+public class MapReduce_Query7 {
 
   //create main function and construct a configuration for hadoop and import all the required packages
   public static void main(String[] args) throws Exception {
     Configuration conf = new Configuration();
-    conf.set("DATE1", args[3]);
-    conf.set("DATE2", args[4]);
+    conf.set("DATE1", args[2]);
+    conf.set("DATE2", args[3]);
     Job job = Job.getInstance(conf, "mapred sql output");
-    job.setJarByClass(MapRed_SQL.class);
+    job.setJarByClass(MapReduce_Query7.class);
     job.setMapperClass(Map.class);
     job.setReducerClass(Reduce.class);
     job.setOutputKeyClass(Text.class);
     job.setOutputValueClass(Text.class);
-    FileInputFormat.addInputPath(job, new Path(args[1]));
-    FileOutputFormat.setOutputPath(job, new Path(args[2]));
+    FileInputFormat.addInputPath(job, new Path(args[0]));
+    FileOutputFormat.setOutputPath(job, new Path(args[1]));
     System.exit(job.waitForCompletion(true) ? 0 : 1);
   }
 
   public static class Map extends Mapper<Object, Text, Text, Text> {
     private Text cust_key = new Text();
-//    private MapWritable result = new MapWritable();
 
     private Text price = new Text();
 
@@ -41,20 +41,18 @@ public class MapRed_SQL {
 
       cust_key.set(list_of_tokens[1]);
 
-      //split list_of_tokens[4] into list of tokens using the char '-'
-      String[] list_of_items = list_of_tokens[4].split("-");
+      SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
+      String date1 = context.getConfiguration().get("DATE1");
+      String date2 = context.getConfiguration().get("DATE2");
 
-      //parse list_of_items[0] into integer and check if is between "1992" and "1998"
-      int year = Integer.parseInt(list_of_items[0]);
-
-      Configuration conf = context.getConfiguration();
-      int DATE1 = Integer.parseInt(conf.get("DATE1"));
-      int DATE2 = Integer.parseInt(conf.get("DATE2"));
-
-      if (year >= DATE1 && year < DATE2) {
-        price.set(new Text(list_of_tokens[3]));
-        context.write(cust_key, price);
-
+      //check if the date is between the two dates
+      try {
+        if ((sdformat.parse(list_of_tokens[4]).after(sdformat.parse(date1)) && sdformat.parse(list_of_tokens[4]).before(sdformat.parse(date2))) || sdformat.parse(list_of_tokens[4]).equals(sdformat.parse(date1))) {
+          price.set(new Text(list_of_tokens[3]));
+          context.write(cust_key, price);
+        }
+      } catch (ParseException e) {
+        e.printStackTrace();
       }
     }
   }
