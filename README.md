@@ -23,4 +23,13 @@
 Our implementation can be fount into 
 
 
-... continue writing here ...
+**In order to run the Map Reduce job on Hadoop we must do the following:**
+
+1. Build the JAR from the project through IntelliJ Build Artifact mechanism
+2. Start hadoop cluster (start-all.sh or start-yarn.sh start-dfs.sh)
+3. Run jps command to make sure that all the services are running (Namenode, Datanode, Secondary Namenode, Resource Manager, Node Manager)
+4. run the command `CEI526 - Semester Project Report - Christos Christodoulou, Thomas Nikidiotis, Charalambos Charalambous`
+5. Track the job through the given UI
+
+
+
