@@ -20,9 +20,9 @@
 * [DATE2] is a date of the form YYYY-MM-DD between 1992 and 1998
 
 
-Our implementation can be fount into 
+Our implementation can be fount into `src/main/MapReduce_Query7.java`
 
-
+## Usage Instructions
 **In order to run the Map Reduce job on Hadoop we must do the following:**
 
 1. Copy the project or unzip it
