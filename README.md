@@ -25,11 +25,12 @@ Our implementation can be fount into
 
 **In order to run the Map Reduce job on Hadoop we must do the following:**
 
-1. Build the JAR from the project through IntelliJ Build Artifact mechanism
-2. Start hadoop cluster (start-all.sh or start-yarn.sh start-dfs.sh)
-3. Run jps command to make sure that all the services are running (Namenode, Datanode, Secondary Namenode, Resource Manager, Node Manager)
-4. run the command `hadoop jar ProjectCEI526.jar MapRed_SQL /path/to/input/directory/ /path/to/output/directory 1992 1998`
-5. Track the job through the given UI
+1. Copy the project or unzip it
+2. Open it with IntelliJ
+3. Run `mvn clean install` to the root foldre of the project 
+4. Find the Jar in the Target Folder with the name `ProjectCEI526-1.0-SNAPSHOT.jar` 
+5. Copy the data to HDFS
+6. Run the command `hadoop jar ProjectCEI526-1-0-SNAPSHOT.jar /input/data/path/ /output/data/path/ 1992-01-01 1998-01-01`
 
 
 
