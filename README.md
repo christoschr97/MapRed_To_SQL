@@ -29,7 +29,7 @@ Our implementation can be fount into
 2. Open it with IntelliJ
 3. Run `mvn clean install` to the root foldre of the project 
 4. Find the Jar in the Target Folder with the name `ProjectCEI526-1.0-SNAPSHOT.jar` 
-5. Copy the data to HDFS
+5. Copy the data to HDFS `hdfs dfs -copyFromLocal /target/data/path /destination/path`
 6. Run the command `hadoop jar ProjectCEI526-1-0-SNAPSHOT.jar /input/data/path/ /output/data/path/ 1992-01-01 1998-01-01`
 
 
