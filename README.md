@@ -25,8 +25,8 @@ Our implementation can be fount into `src/main/MapReduce_Query7.java`
 ## Usage Instructions
 **In order to run the Map Reduce job on Hadoop we must do the following:**
 
-1. Copy the project or unzip it
-2. Open it with IntelliJ
+1. Clone the project from Github or unzip the deliverable assigned with the Project Report
+2. Open it with IntelliJ/Eclipse (or any other JDK suitable for Java Projects)
 3. Run `mvn clean install` to the root foldre of the project 
 4. Find the Jar in the Target Folder with the name `ProjectCEI526-1.0-SNAPSHOT.jar` 
 5. Copy the data to HDFS `hdfs dfs -copyFromLocal /target/data/path /destination/path`
