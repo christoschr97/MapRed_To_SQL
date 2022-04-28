@@ -32,5 +32,10 @@ Our implementation can be fount into `src/main/MapReduce_Query7.java`
 5. Copy the data to HDFS `hdfs dfs -copyFromLocal /target/data/path /destination/path`
 6. Run the command `hadoop jar ProjectCEI526-1-0-SNAPSHOT.jar /input/data/path/ /output/data/path/ 1992-01-01 1998-01-01`
 
+The target folder is present and thus it doesn't require any installation with maven. Although, if its necessary to re-build the project the following steps must be followed:
+1. Delete the target folder
+2. Run mvn clean install 
+3. Find the JAR as stated in the above usage instructions in the target folder of the project
 
 
+,
