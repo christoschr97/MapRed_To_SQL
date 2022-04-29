@@ -1,6 +1,3 @@
-MapRed_SQL$Map.class
-MapRed_SQL.class
-WordCount.class
-WordCount$TokenizerMapper.class
-MapRed_SQL$Reduce.class
-WordCount$IntSumReducer.class
+MapReduce_Query7$Reduce.class
+MapReduce_Query7.class
+MapReduce_Query7$Map.class
